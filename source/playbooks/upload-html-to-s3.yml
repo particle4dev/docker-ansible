@@ -1,0 +1,27 @@
+---
+- hosts: local
+  vars:
+    js_dir: "/www/js/*"
+    css_dir: "/www/css/*"
+    images_dir: "/www/images/*"
+    img_dir: "/www/img/*"
+    fonts_dir: "/www/fonts/*"
+  tasks:
+    - s3: bucket=www.my-test-project.com object=/{{ item | basename }} src={{ item }} mode=put permission=public-read overwrite=different metadata='Cache-Control="no-cache,no-store,max-age=0,must-revalidate"'
+      with_fileglob:
+        - /www/*
+    - s3: bucket=www.my-test-project.com object=/css/{{ item | basename }} src={{ item }} mode=put permission=public-read overwrite=different metadata='Cache-Control="public,max-age=31536000,immutable"'
+      with_fileglob:
+        - "{{ css_dir }}"
+    - s3: bucket=www.my-test-project.com object=/js/{{ item | basename }} src={{ item }} mode=put permission=public-read overwrite=different metadata='Cache-Control="public,max-age=31536000,immutable"'
+      with_fileglob:
+        - "{{ js_dir }}"
+    - s3: bucket=www.my-test-project.com object=/images/{{ item | basename }} src={{ item }} mode=put permission=public-read overwrite=different metadata='Cache-Control="public,max-age=31536000,immutable"'
+      with_fileglob:
+        - "{{ images_dir }}"
+    - s3: bucket=www.my-test-project.com object=/img/{{ item | basename }} src={{ item }} mode=put permission=public-read overwrite=different metadata='Cache-Control="public,max-age=31536000,immutable"'
+      with_fileglob:
+        - "{{ img_dir }}"
+    - s3: bucket=www.my-test-project.com object=/fonts/{{ item | basename }} src={{ item }} mode=put permission=public-read overwrite=different metadata='Cache-Control="public,max-age=31536000,immutable"'
+      with_fileglob:
+        - "{{ fonts_dir }}"
