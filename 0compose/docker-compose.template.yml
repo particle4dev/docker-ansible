@@ -1,0 +1,24 @@
+version: "2"
+
+services:
+
+  ansible:
+    build:
+      context: ../
+      dockerfile: Dockerfile 
+    environment:
+      - AWS_ACCESS_KEY_ID=xxx
+      - AWS_SECRET_ACCESS_KEY=xxx
+      - AWS_DEFAULT_REGION=ap-southeast-1
+    volumes:
+      - ../source/hosts:/etc/ansible/hosts
+      - ../source/ansible.cfg:/etc/ansible/ansible.cfg
+      - ../source/playbooks:/etc/ansible/playbooks
+      - ../source/www:/www
+    command: bash -c "echo 'welcome'; tail -f /dev/null"
+
+# networks:
+  # back-tier:
+  # front-tier:
+# volumes:
+  # db-data:
