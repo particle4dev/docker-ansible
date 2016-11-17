@@ -23,8 +23,12 @@ case "$c" in
     ./0compose/stop.sh "${@}"
     ;;
 
+  troposphere)
+    ./0compose/troposphere.sh "${@}"
+    ;;    
+
   *)
-    echo $"Usage: $0 {run|logs|exec|stop}"
+    echo $"Usage: $0 {run|logs|exec|stop|troposphere}"
     exit 1
 
 esac
